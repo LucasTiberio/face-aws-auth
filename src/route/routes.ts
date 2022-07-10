@@ -3,7 +3,7 @@ import { lazy } from 'react';
 import { iRedirect, iRoute } from '../types/router';
 
 export const HOME_PATH = '/'
-export const HOME_COMPONENT = lazy(() => import('../io/Home'));
+export const HOME_COMPONENT = lazy(() => import('../io/Home/HomeIO.withContext'));
 
 export const CREATE_ACCOUNT_PATH = '/criar-conta';
 const CREATE_ACCOUNT_COMPONENT = lazy(() => import('../io/CreateAccount'));
