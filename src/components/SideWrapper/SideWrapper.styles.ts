@@ -28,15 +28,14 @@ export const GridContainer = styled.section<iGridContainer>`
 
 const WrapperCommonCss = css`
     display: flex;
+    flex-direction: column;
 `
 
 export const LeftWrapper = styled.div`
     ${WrapperCommonCss};
     margin: auto;
-
-    @media screen and (min-width: 768px) {
-        justify-content: center;
-    }
+    justify-content: center;
+    align-items: center;
 `
 
 export const RightWrapper = styled.div`
