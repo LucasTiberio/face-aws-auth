@@ -3,6 +3,7 @@ import { FormikHelpers, useFormik } from 'formik';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useCreateAccount from '../../../hooks/useCreateAccount';
 import { HOME_PATH } from '../../../route/routes';
 import { iFile } from '../../../types/common';
 import FileUploader from '../../FileUploader';
@@ -19,6 +20,7 @@ const initialValues = {
 type iFormValues = typeof initialValues
 
 const CreateAccountForm: React.FC<PropTypes> = () => {
+    const { loading: creatingAccount, createAccount } = useCreateAccount();
     const [file, setFile] = useState<iFile>()
     const navigate = useNavigate()
 
@@ -36,9 +38,15 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
         setFile(newFile);
     }
 
-    const handleSubmitFormik = useCallback((values: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
-        // TODO: Verification
-    }, [])
+    const handleSubmitFormik = useCallback(async (values: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
+        const data = await createAccount({
+            password: values.password,
+            user: values.login,
+            picture: 'foto',
+        })
+
+        console.log({ data })
+    }, [createAccount])
 
     const handleGoToHome = () => navigate(HOME_PATH)
 
@@ -85,17 +93,17 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
             />
 
             <FlexGroup>
-                <Button type="submit" size="large">
+                <Button type="submit" size="large" isLoading={creatingAccount}>
                     Criar conta
                 </Button>
 
                 {file && (
-                    <Button onClick={handleResetFileUploader} size="large">
+                    <Button onClick={handleResetFileUploader} size="large" isLoading={creatingAccount}>
                         Remover foto
                     </Button>
                 )}
 
-                <Button onClick={handleGoToHome} size='large'>
+                <Button onClick={handleGoToHome} size='large' isLoading={creatingAccount}>
                     Voltar
                 </Button>
             </FlexGroup>
