@@ -1,6 +1,7 @@
 import { Button } from 'evergreen-ui';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
+import { useLoginFlowContext } from '../../../contexts/login-flow-context';
 import { iFile } from '../../../types/common';
 import FileUploader from '../../FileUploader';
 import FlexGroup from '../../FlexGroup';
@@ -8,6 +9,7 @@ import { Wrapper } from './FaceForm.styles';
 
 const FaceForm: React.FC = () => {
     const [file, setFile] = useState<iFile>();
+    const { setFaceFormFile } = useLoginFlowContext();
 
     const handleResetFileUploader = () => setFile(undefined)
 
@@ -28,6 +30,11 @@ const FaceForm: React.FC = () => {
 
         // TODO: Send image to API and verify
     }, [file])
+
+    // Update file on LoginFlow Context
+    useEffect(() => {
+        if (file) setFaceFormFile(file)
+    }, [file, setFaceFormFile])
 
     return (
         <Wrapper>

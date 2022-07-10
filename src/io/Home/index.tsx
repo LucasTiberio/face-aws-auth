@@ -6,6 +6,7 @@ import LogoComponent from '../../components/LogoComponent';
 import SideWrapper from '../../components/SideWrapper';
 import LoginFlowContextProvider from '../../contexts/login-flow-context';
 import useQueryParams from '../../hooks/useQueryParams';
+import useTibasTokenTracking from '../../hooks/useTibasTokenTracking';
 import { iHomePossibleQueryParams, iSteps } from './home.types';
 
 const HomeIO: React.FC = () => {

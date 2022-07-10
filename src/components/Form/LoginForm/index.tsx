@@ -2,6 +2,7 @@ import { Button, TextInputField } from 'evergreen-ui';
 import { FormikHelpers, useFormik } from 'formik';
 import React, { useCallback } from 'react';
 
+import { useLoginFlowContext } from '../../../contexts/login-flow-context';
 import DontHaveAnAccount from '../../DontHaveAnAccount';
 import FlexGroup from '../../FlexGroup';
 import { LoginFormValidationSchema } from './LoginForm.schema';
@@ -18,10 +19,19 @@ export type iFormValues = typeof initialValues
 const LoginForm: React.FC<PropTypes> = ({
     setStep,
 }) => {
-    const handleSubmitFormik = useCallback((values: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
-        // TODO: Verification
+    const { setLoginFormValues } = useLoginFlowContext();
+
+    const handleSubmitFormik = useCallback(({
+        login,
+        password,
+    }: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
+        setLoginFormValues({
+            login,
+            password,
+        })
+
         setStep('FACE')
-    }, [setStep])
+    }, [setLoginFormValues, setStep])
 
     const {
         getFieldProps,
