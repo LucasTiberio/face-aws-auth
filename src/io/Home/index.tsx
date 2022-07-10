@@ -4,6 +4,7 @@ import FaceForm from '../../components/Form/FaceForm';
 import LoginForm from '../../components/Form/LoginForm';
 import LogoComponent from '../../components/LogoComponent';
 import SideWrapper from '../../components/SideWrapper';
+import LoginFlowContextProvider from '../../contexts/login-flow-context';
 import useQueryParams from '../../hooks/useQueryParams';
 import { iHomePossibleQueryParams, iSteps } from './home.types';
 
@@ -28,7 +29,9 @@ const HomeIO: React.FC = () => {
 
     return (
         <SideWrapper LeftComponent={<LogoComponent />}>
-            {StepView[step as iSteps]}
+            <LoginFlowContextProvider>
+                {StepView[step as iSteps]}
+            </LoginFlowContextProvider>
         </SideWrapper>
     );
 }

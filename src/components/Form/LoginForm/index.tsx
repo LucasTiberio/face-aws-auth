@@ -8,12 +8,12 @@ import { LoginFormValidationSchema } from './LoginForm.schema';
 import { Form } from './LoginForm.styles';
 import type { PropTypes } from './LoginForm.types';
 
-const initialValues = {
+export const initialValues = {
     login: '',
     password: '',
 }
 
-type iFormValues = typeof initialValues
+export type iFormValues = typeof initialValues
 
 const LoginForm: React.FC<PropTypes> = ({
     setStep,
