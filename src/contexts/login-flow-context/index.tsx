@@ -1,8 +1,9 @@
 import React, { createContext, useState } from 'react'
 
 import { iFormValues as iLoginFormValues } from "../../components/Form/LoginForm";
+import { iSteps } from '../../io/Home/home.types';
 import { iFile } from '../../types/common';
-import { dummyContext, iLoginFlowContext } from './login-flow-context.types'
+import { dummyContext, iLoginFlowContext, iTokenPayload } from './login-flow-context.types'
 
 export const LoginFlowContext = createContext<iLoginFlowContext>(dummyContext)
 
@@ -15,6 +16,8 @@ type PropTypes = {
 const LoginFlowContextProvider: React.FC<PropTypes> = ({ children }) => {
     const [loginFormValues, setLoginFormValues] = useState<iLoginFormValues>(dummyContext.loginFormValues)
     const [faceFormFile, setFaceFormFile] = useState<iFile>()
+    const [step, setStep] = useState<iSteps>(dummyContext.step)
+    const [tokenPayload, setTokenPayload] = useState<iTokenPayload>()
 
     return (
         <LoginFlowContext.Provider
@@ -23,6 +26,10 @@ const LoginFlowContextProvider: React.FC<PropTypes> = ({ children }) => {
                 setLoginFormValues,
                 faceFormFile,
                 setFaceFormFile,
+                step,
+                setStep,
+                tokenPayload,
+                setTokenPayload,
             }}
         >
             {children}

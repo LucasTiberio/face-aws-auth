@@ -7,19 +7,19 @@ import DontHaveAnAccount from '../../DontHaveAnAccount';
 import FlexGroup from '../../FlexGroup';
 import { LoginFormValidationSchema } from './LoginForm.schema';
 import { Form } from './LoginForm.styles';
-import type { PropTypes } from './LoginForm.types';
 
-export const initialValues = {
+export type iFormValues = {
+    login: string;
+    password?: string;
+}
+
+export const initialValues: iFormValues = {
     login: '',
     password: '',
 }
 
-export type iFormValues = typeof initialValues
-
-const LoginForm: React.FC<PropTypes> = ({
-    setStep,
-}) => {
-    const { setLoginFormValues } = useLoginFlowContext();
+const LoginForm: React.FC = () => {
+    const { setLoginFormValues, loginFormValues, setStep } = useLoginFlowContext();
 
     const handleSubmitFormik = useCallback(({
         login,
@@ -39,7 +39,7 @@ const LoginForm: React.FC<PropTypes> = ({
         errors,
         touched
     } = useFormik({
-        initialValues,
+        initialValues: loginFormValues,
         onSubmit: handleSubmitFormik,
         validateOnBlur: true,
         validationSchema: LoginFormValidationSchema
