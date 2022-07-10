@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useState } from "react"
 
 import { iCreateAccountEntryValues } from "../types/create-account";
 import useAxiosInstance from "./useAxiosInstance"
@@ -7,7 +7,7 @@ const useCreateAccount = () => {
     const axios = useAxiosInstance();
     const [loading, setLoading] = useState(false)
 
-    const createAccount = useCallback(async ({
+    const createAccount = async ({
         password,
         picture,
         user,
@@ -30,7 +30,7 @@ const useCreateAccount = () => {
         } finally {
             setLoading(false)
         }
-    }, [axios])
+    }
 
     return {
         createAccount,
