@@ -1,38 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import FaceForm from '../../components/Form/FaceForm';
 import LoginForm from '../../components/Form/LoginForm';
 import LogoComponent from '../../components/LogoComponent';
 import SideWrapper from '../../components/SideWrapper';
-import LoginFlowContextProvider from '../../contexts/login-flow-context';
-import useQueryParams from '../../hooks/useQueryParams';
-import useTibasTokenTracking from '../../hooks/useTibasTokenTracking';
-import { iHomePossibleQueryParams, iSteps } from './home.types';
+import { useLoginFlowContext } from '../../contexts/login-flow-context';
+import { iSteps } from './home.types';
+import homeReceiveTibasToken from './hooks/homeReceiveTibasToken';
 
 const HomeIO: React.FC = () => {
-    const queryParams = useQueryParams<iHomePossibleQueryParams>();
-    const { step: queryParamsStep } = queryParams;
-    const [step, setStep] = useState<iSteps>('CREDENTIALS');
+    const { step } = useLoginFlowContext();
+
+    homeReceiveTibasToken();
 
     const StepView: Record<iSteps, JSX.Element> = {
-        CREDENTIALS: <LoginForm setStep={setStep} />,
+        CREDENTIALS: <LoginForm />,
         FACE: <FaceForm />
     }
 
-    /**
-     * Verify if contains step in query params
-     * Verify if step exist, if so set it on state
-     */
-    useEffect(() => {
-        const _queryParamsStep = queryParamsStep as iSteps
-        if (queryParamsStep && StepView[_queryParamsStep]) setStep(_queryParamsStep);
-    }, [StepView, queryParamsStep])
-
     return (
         <SideWrapper LeftComponent={<LogoComponent />}>
-            <LoginFlowContextProvider>
-                {StepView[step as iSteps]}
-            </LoginFlowContextProvider>
+            {StepView[step as iSteps]}
         </SideWrapper>
     );
 }
