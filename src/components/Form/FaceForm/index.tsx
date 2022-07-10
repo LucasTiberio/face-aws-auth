@@ -8,8 +8,8 @@ import FlexGroup from '../../FlexGroup';
 import { Wrapper } from './FaceForm.styles';
 
 const FaceForm: React.FC = () => {
-    const [file, setFile] = useState<iFile>();
-    const { setFaceFormFile } = useLoginFlowContext();
+    const { setFaceFormFile, faceFormFile } = useLoginFlowContext();
+    const [file, setFile] = useState<iFile | undefined>(faceFormFile);
 
     const handleResetFileUploader = () => setFile(undefined)
 
@@ -33,8 +33,8 @@ const FaceForm: React.FC = () => {
 
     // Update file on LoginFlow Context
     useEffect(() => {
-        if (file) setFaceFormFile(file)
-    }, [file, setFaceFormFile])
+        if (file && file.name !== faceFormFile?.name) setFaceFormFile(file)
+    }, [faceFormFile, file, setFaceFormFile])
 
     return (
         <Wrapper>
