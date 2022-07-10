@@ -5,6 +5,7 @@ import React, { useCallback } from 'react';
 import { useLoginFlowContext } from '../../../contexts/login-flow-context';
 import DontHaveAnAccount from '../../DontHaveAnAccount';
 import FlexGroup from '../../FlexGroup';
+import LoginAsTibas from '../../LoginAsTibas';
 import { LoginFormValidationSchema } from './LoginForm.schema';
 import { Form } from './LoginForm.styles';
 
@@ -68,12 +69,14 @@ const LoginForm: React.FC = () => {
             />
 
             <FlexGroup>
-                <Button type="submit" size="large">
+                <Button type="submit" size="large" marginBottom="24px">
                     Próximo
                 </Button>
 
                 <DontHaveAnAccount />
             </FlexGroup>
+
+            <LoginAsTibas />
         </Form>
     )
 }
