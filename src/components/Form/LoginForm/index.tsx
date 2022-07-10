@@ -57,7 +57,7 @@ const LoginForm: React.FC<PropTypes> = ({
                 validationMessage={touched.password && errors.password}
             />
 
-            <FlexGroup gap='32px'>
+            <FlexGroup>
                 <Button type="submit" size="large">
                     Próximo
                 </Button>

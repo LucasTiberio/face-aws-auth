@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react';
 
 import { iFile } from '../../../types/common';
 import FileUploader from '../../FileUploader';
+import FlexGroup from '../../FlexGroup';
 import { Wrapper } from './FaceForm.styles';
 
 const FaceForm: React.FC = () => {
@@ -37,15 +38,17 @@ const FaceForm: React.FC = () => {
                 src={file?.src}
             />
 
-            <Button onClick={handleSubmit} size="large">
-                Entrar
-            </Button>
-
-            {file && (
-                <Button onClick={handleResetFileUploader} size="large">
-                    Remover foto
+            <FlexGroup>
+                <Button onClick={handleSubmit} size="large">
+                    Entrar
                 </Button>
-            )}
+
+                {file && (
+                    <Button onClick={handleResetFileUploader} size="large">
+                        Remover foto
+                    </Button>
+                )}
+            </FlexGroup>
         </Wrapper>
     )
 }
