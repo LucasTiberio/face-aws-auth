@@ -1,50 +1,20 @@
 import { Button, TextInputField } from 'evergreen-ui';
-import { FormikHelpers, useFormik } from 'formik';
-import React, { useCallback } from 'react';
+import { useFormikContext } from 'formik';
+import React from 'react';
 
-import { useLoginFlowContext } from '../../../contexts/login-flow-context';
-import DontHaveAnAccount from '../../DontHaveAnAccount';
-import FlexGroup from '../../FlexGroup';
-import LoginAsTibas from '../../LoginAsTibas';
-import { LoginFormValidationSchema } from './LoginForm.schema';
+import DontHaveAnAccount from '../../../../DontHaveAnAccount';
+import FlexGroup from '../../../../FlexGroup';
+import LoginAsTibas from '../../../../LoginAsTibas';
+import { iHomeForm } from '../../HomeForm.types';
 import { Form } from './LoginForm.styles';
 
-export type iFormValues = {
-    login: string;
-    password?: string;
-}
-
-export const initialValues: iFormValues = {
-    login: '',
-    password: '',
-}
-
 const LoginForm: React.FC = () => {
-    const { setLoginFormValues, loginFormValues, setStep } = useLoginFlowContext();
-
-    const handleSubmitFormik = useCallback(({
-        login,
-        password,
-    }: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
-        setLoginFormValues({
-            login,
-            password,
-        })
-
-        setStep('FACE')
-    }, [setLoginFormValues, setStep])
-
     const {
         getFieldProps,
         handleSubmit,
         errors,
         touched
-    } = useFormik({
-        initialValues: loginFormValues,
-        onSubmit: handleSubmitFormik,
-        validateOnBlur: true,
-        validationSchema: LoginFormValidationSchema
-    })
+    } = useFormikContext<iHomeForm>()
 
     return (
         <Form onSubmit={handleSubmit}>

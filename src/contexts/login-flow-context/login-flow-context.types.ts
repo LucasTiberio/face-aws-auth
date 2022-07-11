@@ -1,6 +1,4 @@
-import { iFormValues as iLoginFormValues, initialValues as loginFormInitialValues } from "../../components/Form/LoginForm";
-import { iSteps } from "../../io/Home/home.types";
-import { iFile } from "../../types/common";
+import { iHomeForm, iSteps } from "../../components/Form/HomeForm/HomeForm.types";
 
 type iTokenTypes = 'TIBAS_TOKEN'
 
@@ -10,10 +8,9 @@ export type iTokenPayload = {
 }
 
 export type iLoginFlowContext = {
-    loginFormValues: iLoginFormValues;
-    setLoginFormValues: (newLoginFormValues: iLoginFormValues) => void;
-    faceFormFile?: iFile;
-    setFaceFormFile: (newFile: iFile) => void;
+    formValues: iHomeForm;
+    setFormValues: (newLoginFormValues: iHomeForm) => void;
+    addFormValues: (newLoginFormValues: Partial<iHomeForm>) => void;
     step: iSteps;
     setStep: (newStep: iSteps) => void;
     tokenPayload?: iTokenPayload;
@@ -21,9 +18,11 @@ export type iLoginFlowContext = {
 }
 
 export const dummyContext: iLoginFlowContext = {
-    setLoginFormValues: () => false,
-    loginFormValues: loginFormInitialValues,
-    setFaceFormFile: () => false,
+    formValues: {
+        login: '',
+    },
+    setFormValues: () => false,
+    addFormValues: () => false,
     setStep: () => false,
     step: 'CREDENTIALS',
     setTokenPayload: () => false,

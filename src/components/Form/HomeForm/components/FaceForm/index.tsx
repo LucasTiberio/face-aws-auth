@@ -1,17 +1,21 @@
 import { Button } from 'evergreen-ui';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useFormikContext } from 'formik';
+import React from 'react';
 
-import { useLoginFlowContext } from '../../../contexts/login-flow-context';
-import { iFile } from '../../../types/common';
-import FileUploader from '../../FileUploader';
-import FlexGroup from '../../FlexGroup';
+import { useLoginFlowContext } from '../../../../../contexts/login-flow-context';
+import FileUploader from '../../../../FileUploader';
+import FlexGroup from '../../../../FlexGroup';
 import { Wrapper } from './FaceForm.styles';
 
 const FaceForm: React.FC = () => {
-    const { setFaceFormFile, faceFormFile } = useLoginFlowContext();
-    const [file, setFile] = useState<iFile | undefined>(faceFormFile);
+    const { addFormValues, formValues, setStep } = useLoginFlowContext();
+    const { file } = formValues
 
-    const handleResetFileUploader = () => setFile(undefined)
+    const handleResetFileUploader = () => addFormValues({
+        file: undefined,
+    })
+
+    const handleGoToLoginFormStep = () => setStep('CREDENTIALS')
 
     const handleChangeFileInput = (files: File[]) => {
         const [file] = files;
@@ -22,19 +26,14 @@ const FaceForm: React.FC = () => {
             src: URL.createObjectURL(file),
         }
 
-        setFile(newFile);
+        addFormValues({
+            file: newFile,
+        });
     }
 
-    const handleSubmit = useCallback((evt: React.MouseEvent<HTMLButtonElement>) => {
-        if (!file) return;
-
-        // TODO: Send image to API and verify
-    }, [file])
-
-    // Update file on LoginFlow Context
-    useEffect(() => {
-        if (file && file.name !== faceFormFile?.name) setFaceFormFile(file)
-    }, [faceFormFile, file, setFaceFormFile])
+    const {
+        submitForm,
+    } = useFormikContext()
 
     return (
         <Wrapper>
@@ -46,7 +45,7 @@ const FaceForm: React.FC = () => {
             />
 
             <FlexGroup>
-                <Button onClick={handleSubmit} size="large">
+                <Button onClick={submitForm} size="large">
                     Entrar
                 </Button>
 
@@ -55,6 +54,10 @@ const FaceForm: React.FC = () => {
                         Remover foto
                     </Button>
                 )}
+
+                <Button onClick={handleGoToLoginFormStep} size="large">
+                    Voltar
+                </Button>
             </FlexGroup>
         </Wrapper>
     )

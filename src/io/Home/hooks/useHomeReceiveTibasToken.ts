@@ -3,13 +3,13 @@ import { useEffect } from "react";
 import { useLoginFlowContext } from "../../../contexts/login-flow-context";
 import useTibasTokenTracking from "../../../hooks/useTibasTokenTracking";
 
-const HomeReceiveTibasToken = () => {
+const useHomeReceiveTibasToken = () => {
     const tibasToken = useTibasTokenTracking();
-    const { step, setStep, setLoginFormValues, setTokenPayload } = useLoginFlowContext();
+    const { step, setStep, addFormValues, setTokenPayload } = useLoginFlowContext();
 
     useEffect(() => {
         if (step === 'CREDENTIALS' && tibasToken?.login) {
-            setLoginFormValues({
+            addFormValues({
                 login: tibasToken.login,
             })
 
@@ -20,9 +20,7 @@ const HomeReceiveTibasToken = () => {
 
             setStep('FACE')
         }
-    }, [setLoginFormValues, setStep, setTokenPayload, step, tibasToken])
+    }, [addFormValues, setStep, setTokenPayload, step, tibasToken])
 }
 
-const homeReceiveTibasToken = HomeReceiveTibasToken
-
-export default homeReceiveTibasToken
+export default useHomeReceiveTibasToken

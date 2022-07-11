@@ -1,4 +1,4 @@
-import { iSteps } from "../../../io/Home/home.types"
+import { iSteps } from "../../HomeForm.types";
 
 export type PropTypes = {
     setStep: (newStep: iSteps) => void;
