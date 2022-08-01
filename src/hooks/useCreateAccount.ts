@@ -11,15 +11,29 @@ const useCreateAccount = () => {
         password,
         picture,
         user,
+        cpf,
+        email,
+        dataNascimento
     }: iCreateAccountEntryValues) => {
         try {
             setLoading(true)
-            const { data } = await axios.post('/criar-conta', {
-                user,
-                password,
-                picture,
+            const { data } = await axios.post('/Usuario', {
+                nome: user,
+                senha: password,
+                email,
+                dataNascimento,
+                cpf
             })
-
+            console.log(data)
+            const formData = new FormData();
+            formData.append('imagemLogin', picture);
+            const { data: dataDois } = await axios.post('/usuario/imagem?id=' + data.Id, {
+                picture
+            }, {
+                headers: {
+                    'Content-Type': `multipart/form-data; boundary=${formData.get('_boundary')}`
+                }
+            })
             return data;
         } catch (error) {
             console.error('useCreateAccount', error)

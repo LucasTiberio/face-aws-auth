@@ -15,6 +15,10 @@ import type { PropTypes } from './CreateAccountForm.types';
 const initialValues = {
     login: '',
     password: '',
+    email: '',
+    cpf: '',
+    dataNascimento: '',
+    photo: undefined
 }
 
 type iFormValues = typeof initialValues
@@ -39,10 +43,15 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
     }
 
     const handleSubmitFormik = useCallback(async (values: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
+        if (!file)
+            return;
         const data = await createAccount({
             password: values.password,
             user: values.login,
-            picture: 'foto',
+            picture: file,
+            email: values.email,
+            cpf: values.cpf,
+            dataNascimento: new Date(values.dataNascimento)
         })
 
         console.log({ data })
@@ -67,9 +76,9 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
             <TextInputField
                 {...getFieldProps('login')}
                 inputHeight={42}
-                placeholder="NomeDeUsuarioTeste"
+                placeholder="Giovanni Sacchitiello"
                 required
-                label="Crie um login"
+                label="Qual o seu nome?"
                 isInvalid={touched.login && !!errors.login}
                 validationMessage={touched.login && errors.login}
             />
@@ -85,7 +94,35 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
                 validationMessage={touched.password && errors.password}
             />
 
+            <TextInputField
+                {...getFieldProps('email')}
+                inputHeight={42}
+                placeholder="pedrinhozika2009@gmail.com"
+                required
+                label="Insira seu E-mail"
+                type="text"
+            />
+
+            <TextInputField
+                {...getFieldProps('cpf')}
+                inputHeight={42}
+                placeholder="41758132841"
+                required
+                label="cpf"
+                type="text"
+            />
+
+            <TextInputField
+                {...getFieldProps('dataNascimento')}
+                inputHeight={42}
+                placeholder="05/05/2000"
+                required
+                label="Data de nascimento"
+                type="date"
+            />
+
             <FileUploader
+                {...getFieldProps('photo')}
                 onChange={handleChangeFileInput}
                 label="Adicionar confirmação facial"
                 description='Fazer upload de imagem'
