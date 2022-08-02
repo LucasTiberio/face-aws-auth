@@ -26,12 +26,10 @@ const useCreateAccount = () => {
             })
             console.log(data)
             const formData = new FormData();
-            formData.append('imagemLogin', picture);
-            const { data: dataDois } = await axios.post('/usuario/imagem?id=' + data.Id, {
-                picture
-            }, {
+            formData.append('imagem', picture);
+            const { data: dataDois } = await axios.post('/usuario/imagem?id=' + data.Id, formData, {
                 headers: {
-                    'Content-Type': `multipart/form-data; boundary=${formData.get('_boundary')}`
+                    'Content-Type': `multipart/form-data;`
                 }
             })
             return data;

@@ -1,6 +1,6 @@
 import { Button, TextInputField } from 'evergreen-ui';
 import { FormikHelpers, useFormik } from 'formik';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useCreateAccount from '../../../hooks/useCreateAccount';
@@ -25,8 +25,10 @@ type iFormValues = typeof initialValues
 
 const CreateAccountForm: React.FC<PropTypes> = () => {
     const { loading: creatingAccount, createAccount } = useCreateAccount();
-    const [file, setFile] = useState<iFile>()
+    const [file, setFile] = useState<File>()
     const navigate = useNavigate()
+
+    const fileUrl = useMemo(() => file ? URL.createObjectURL(file) : '', [file])
 
     const handleResetFileUploader = () => setFile(undefined)
 
@@ -34,12 +36,7 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
         const [file] = files;
         if (!file) return
 
-        const newFile = {
-            ...file,
-            src: URL.createObjectURL(file),
-        }
-
-        setFile(newFile);
+        setFile(file);
     }
 
     const handleSubmitFormik = useCallback(async (values: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
@@ -55,7 +52,7 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
         })
 
         console.log({ data })
-    }, [createAccount])
+    }, [createAccount, file])
 
     const handleGoToHome = () => navigate(HOME_PATH)
 
@@ -126,7 +123,7 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
                 onChange={handleChangeFileInput}
                 label="Adicionar confirmação facial"
                 description='Fazer upload de imagem'
-                src={file?.src}
+                src={fileUrl}
             />
 
             <FlexGroup>
