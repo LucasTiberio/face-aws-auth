@@ -32,7 +32,10 @@ const useCreateAccount = () => {
                     'Content-Type': `multipart/form-data;`
                 }
             })
-            return data;
+            return {
+                ...data,
+                ...dataDois,
+            };
         } catch (error) {
             console.error('useCreateAccount', error)
             return {

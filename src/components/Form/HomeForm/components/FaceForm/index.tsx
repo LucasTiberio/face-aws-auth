@@ -1,39 +1,36 @@
 import { Button } from 'evergreen-ui';
 import { useFormikContext } from 'formik';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { useLoginFlowContext } from '../../../../../contexts/login-flow-context';
 import FileUploader from '../../../../FileUploader';
 import FlexGroup from '../../../../FlexGroup';
+import { iHomeForm } from '../../HomeForm.types';
 import { Wrapper } from './FaceForm.styles';
 
 const FaceForm: React.FC = () => {
-    const { addFormValues, formValues, setStep } = useLoginFlowContext();
-    const { file } = formValues
+    const { setStep } = useLoginFlowContext();
 
-    const handleResetFileUploader = () => addFormValues({
-        file: undefined,
-    })
+    const {
+        submitForm,
+        setFieldValue,
+        values: {
+            file,
+        },
+    } = useFormikContext<iHomeForm>()
+
+    const handleResetFileUploader = () => setFieldValue('file', undefined)
 
     const handleGoToLoginFormStep = () => setStep('CREDENTIALS')
+
+    const fileUrl = useMemo(() => file ? URL.createObjectURL(file) : '', [file])
 
     const handleChangeFileInput = (files: File[]) => {
         const [file] = files;
         if (!file) return
 
-        const newFile = {
-            ...file,
-            src: URL.createObjectURL(file),
-        }
-
-        addFormValues({
-            file: newFile,
-        });
+        setFieldValue('file', file)
     }
-
-    const {
-        submitForm,
-    } = useFormikContext()
 
     return (
         <Wrapper>
@@ -41,7 +38,7 @@ const FaceForm: React.FC = () => {
                 onChange={handleChangeFileInput}
                 label="Confirmação facial"
                 description='Upload de imagem'
-                src={file?.src}
+                src={fileUrl}
             />
 
             <FlexGroup>

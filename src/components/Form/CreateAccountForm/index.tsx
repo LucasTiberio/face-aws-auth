@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import useCreateAccount from '../../../hooks/useCreateAccount';
 import { HOME_PATH } from '../../../route/routes';
-import { iFile } from '../../../types/common';
 import FileUploader from '../../FileUploader';
 import FlexGroup from '../../FlexGroup';
 import { CreateAccountFormValidationSchema } from './CreateAccountForm.schema';
@@ -42,6 +41,7 @@ const CreateAccountForm: React.FC<PropTypes> = () => {
     const handleSubmitFormik = useCallback(async (values: iFormValues, formikHelpers: FormikHelpers<iFormValues>) => {
         if (!file)
             return;
+
         const data = await createAccount({
             password: values.password,
             user: values.login,
